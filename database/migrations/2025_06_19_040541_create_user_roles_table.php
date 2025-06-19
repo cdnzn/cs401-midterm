@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('teachers', function (Blueprint $table) {
+        Schema::create('user_roles', function (Blueprint $table) {
+            $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->unsignedBigInteger('role_id');
+            $table->timestamps();
         });
     }
 
@@ -22,11 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('teachers', function (Blueprint $table) {
-            if (Schema::hasColumn('teachers', 'user_id')) {
-                $table->dropForeign(['user_id']);
-                $table->dropColumn('user_id');
-            }
-        });
+        Schema::dropIfExists('user_roles');
     }
 };
